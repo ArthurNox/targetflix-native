@@ -18,6 +18,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import api from './../services/moviesService'
+import MovieCard from '../components/movieCard';
 
 export default class Home extends React.Component {
   static navigationOptions = {
@@ -50,13 +51,11 @@ export default class Home extends React.Component {
   // }
 
   renderCard = ({ item }) => {
-    return <View style={styles.movieCard}>
-      <Text style={styles.movieTitle}>{item.titulo}</Text>
-      <Text style={styles.movieDescription}>{item.sinopse}</Text>
-      <Button onPress={() => {
-        this.props.navigation.navigate('Details', {movieId: item.id})
-      }} title="Ver detalhes" />
-    </View>
+    return < MovieCard item={item} handleSelectMovie={this.handleSelectMovie} />
+  }
+
+  handleSelectMovie = (id) => {
+    this.props.navigation.navigate('Details', {movieId: id} )
   }
 
   render () {
@@ -92,17 +91,5 @@ const styles = StyleSheet.create({
   movieList: {
     padding: 20,
   },
-  movieCard: {
-    backgroundColor: Colors.lighter,
-    padding: 10,
-    marginBottom: 10,
-    borderRadius: 5
-  },
-  movieTitle: {
-    fontWeight: 'bold',
-    fontSize: 24
-  },
-  movieDescription: {
-    color: '#a2a2a2'
-  }
+  
 });
