@@ -1,24 +1,6 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  Button,
-  FlatList,
-  Alert
-} from 'react-native';
-
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import api from './../services/moviesService'
-import MovieCard from '../components/movieCard';
+import { StyleSheet,View } from 'react-native';
+import CategoryList from '../components/categoryList';
 
 export default class Home extends React.Component {
   static navigationOptions = {
@@ -29,43 +11,13 @@ export default class Home extends React.Component {
       headerTintColor: "#F00"
   }
 
-  state = {
-    movieList: []
-  }
-
-  componentDidMount () {
-    //this.fetchAllMovies()
-    api.get('/filmes').then(response => {
-      this.setState({
-        movieList: response.data
-      })
-    })
-  }
-
-  // fetchAllMovies = () => {
-  //   const response = api.get('/filmes')
-
-  //   this.setState({
-  //     moviesList: response.data
-  //   })
-  // }
-
-  renderCard = ({ item }) => {
-    return < MovieCard item={item} handleSelectMovie={this.handleSelectMovie} />
-  }
-
-  handleSelectMovie = (id) => {
-    this.props.navigation.navigate('Details', {movieId: id} )
+  handleGoToDetails = (id) =>{
+    this.props.navigation.navigate('Details', { movieId: id })
   }
 
   render () {
     return <View style={styles.body}>
-        <View style={styles.moviesList}>
-          <FlatList
-            data={this.state.movieList}
-            keyExtractor={item => item.id.toString()}
-            renderItem={this.renderCard} />
-        </View>
+      <CategoryList handleGoToDetails={this.handleGoToDetails}/>
       </View>
   }
 };
@@ -73,6 +25,7 @@ export default class Home extends React.Component {
 const styles = StyleSheet.create({  
   body: {
     backgroundColor: '#141414',
+    padding: 20
   },
   header: {
     padding: 20
